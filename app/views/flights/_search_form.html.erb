@@ -1,0 +1,26 @@
+<%= simple_form_for(flight, url: flights_path, method: :get, local: true) do |form| %>
+
+  <div class="search_form">
+    <%= form.collection_select(:departure_airport_id, 
+                                Airport.all.order(:code),
+                                :id,
+                                :code,
+                                include_blank: 'Departing City') %>
+    
+
+    <%= form.collection_select(:arrival_airport_id,
+                                Airport.all.order(:code),
+                                :id,
+                                :code,
+                                include_blank: 'Destination City') %>
+    
+
+    <%= form.collection_select(:departure,
+                                Flight.select(:departure).distinct.order(:departure),
+                                :departure,
+                                :formatted_date,
+                                include_blank: 'Date') %>
+
+    <%= form.button :submit, 'Search', id: 'search-button' %>  
+  </div>
+<% end %>
