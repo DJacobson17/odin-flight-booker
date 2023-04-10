@@ -1,28 +1,34 @@
-<% if flights %>
+<%= simple_form_for(flights, url: new_booking_path, method: :get, local: true) do |form| %>
 
-<h4><%= pluralize(flights.length, 'flight') %> matched your search</h4>
+  <% if flights %>
+  <h4><%= pluralize(flights.length, 'flight') %> matched your search</h4>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Departs</th>
-        <th>Arrives</th>
-        <th>Date</th>
-        <th>Time</th>
-        <th>Duration</th>
-      </tr>
-    </thead>
-    
-    <tbody>
-        <% flights.each do |flight| %>
-          <tr>
-            <td><%= flight.departure_airport.code %></td>
-            <td><%= flight.arrival_airport.code %></td>
-            <td><%= flight.formatted_date %></td>
-            <td><%= flight.formatted_time %></td>
-            <td><%= flight.formatted_duration %></td>  
-          </tr>
-        <% end %>
-    </tbody>
-  </table>
+    <table>
+      <thead>
+        <tr>
+          <th>Select</th>
+          <th>Departs</th>
+          <th>Arrives</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Duration</th>
+        </tr>
+      </thead>
+      
+      <tbody>
+          <% flights.each do |flight| %>
+            <tr>
+              <td><%= radio_button_tag(:flight, flight.id, { checked: true }) %></td>
+              <td><%= flight.departure_airport.code %></td>
+              <td><%= flight.arrival_airport.code %></td>
+              <td><%= flight.formatted_date %></td>
+              <td><%= flight.formatted_time %></td>
+              <td><%= flight.formatted_duration %></td>  
+            </tr>
+          <% end %>
+      </tbody>
+    </table>
+    <%= form.hidden_field :num_tickets, value: params[:passengers] %>
+    <%= form.button :submit, 'Book Flight', 'book-flight-button' %>
+  <% end %>
 <% end %>
